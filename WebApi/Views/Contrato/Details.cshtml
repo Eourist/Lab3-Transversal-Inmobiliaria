@@ -1,0 +1,189 @@
+﻿@model InmobiliariaSpartano.Models.Contrato
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+@if (Model.Estado == 1)
+{
+    <div class="mb-3">
+        <a href="#modal-renovar" data-toggle="modal" class="btn btn-outline-primary"><i class="fas fa-calendar-plus"></i> Renovar</a>
+        <a href="#modal-romper" data-toggle="modal" class="btn btn-outline-primary"><i class="fas fa-calendar-times"></i> Romper</a>
+        <a href="#modal-terminar" data-toggle="modal" class="btn btn-outline-primary"><i class="fas fa-calendar-check"></i> Terminar</a>
+    </div>
+}
+else
+{
+    <h5>Estado del contrato: @Model.NombreEstado</h5>
+}
+<div>
+    <h4>Contrato</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            #@Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Inmueble)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Inmueble.ToString()
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Inquilino)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Inquilino.ToString()
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaDesde)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.FechaDesde.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FechaHasta)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.FechaHasta.ToShortDateString()
+        </dd>
+        <dt class="col-sm-2">
+            Precio mensual
+        </dt>
+        <dd class="col-sm-10">
+            $@Model.Precio
+        </dd>
+    </dl>
+    <h4>Pagos del contrato</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Resumen
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ResumenPagos
+        </dd>
+        <dt class="col-sm-2">
+            Próximo pago
+        </dt>
+        <dd class="col-sm-10">
+            @Model.ProximoPagoTexto
+        </dd>
+        <dt class="col-sm-2">
+            Estado
+        </dt>
+        <dd class="col-sm-10">
+            @Model.EstadoPagos
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (Model.Estado == 1)
+    {
+        <a asp-route-id="@Model.Id" asp-action="Edit">Editar</a> <span>|</span>
+    }
+    <a asp-route-ContratoId="@Model.Id" asp-controller="Pago" asp-action="Index">Pagos</a> |
+    <a asp-action="Index">Volver</a>
+</div>
+
+<!-- MODAL RENOVAR CONTRATO -->
+<div class="modal fade" id="modal-renovar" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="w-100 text-center">Renovar contrato</h5>
+            </div>
+            <form asp-action="Renovar">
+                <div class="modal-body">
+                    <p class="text-center">¿Hasta que fecha desea renovar este Contrato?</p>
+                    <div class="form-group">
+                        <input type="month" class="form-control" name="RenovarContratoFecha" id="RenovarContratoFecha" value="@(Model.FechaHasta.AddMonths(1).ToString("yyyy-MM"))" min="@(Model.FechaHasta.AddMonths(1).ToString("yyyy-MM"))" />
+                        <small>*El día será el mismo que el de finalización del contrato a renovar.</small>
+                    </div>
+                    <p>Solo realize esta accion si:</p>
+                    <ul>
+                        <li>Los pagos estan al día.</li>
+                        <li>Todavía no se alcanzó la fecha de finalización del contrato.</li>
+                        <li>Ambos participantes estan de acuerdo con renovar el contrato.</li>
+                    </ul>
+                    <p>
+                        Al renovar el contrato, este se marcará como cumplido y se creara uno nuevo en su lugar con los mismos datos excepto
+                        las fechas de inicio y finalización.
+                    </p>
+                    <small>*Si se desea cambiar el importe del contrato, corresponde editar el inmueble antes de renovar.</small>
+                    <input type="hidden" name="ContratoId" id="ContratoId" value="@Model.Id" />
+                    <hr />
+                    <div class="col-12 text-right p-0 mt-1">
+                        <a href="#" data-dismiss="modal">Cancelar</a> |
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check-circle"></i> Confirmar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ROMPER CONTRATO -->
+<div class="modal fade" id="modal-romper" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="w-100 text-center">Romper contrato</h5>
+            </div>
+            <form asp-action="Romper">
+                <div class="modal-body text-left">
+                    <h5 class="text-center">¿Desea romper este contrato?</h5>
+                    <p>El inquilino debera pagar una multa con las siguientes pautas:</p>
+                    <ul>
+                        <li>El valor de la multa es proporcional al precio mensual acordado en el contrato.</li>
+                        <li>Si se pagó mas de la mitad del contrato, se cobra un mes de multa.</li>
+                        <li>Si no se pagó mas de la mitad, se cobran dos meses de multa.</li>
+                        <li>Para poder romper el contrato los pagos deben estar al día.</li>
+                        <li>Solo el inquilino puede decidir romper el contrato.</li>
+                    </ul>
+                    <h6>Estado del contrato actual: @Model.ResumenPagos</h6>
+                    <h6>Valor de la multa: $@Html.Encode(Model.MitadContratoCumplida ? Model.Precio : (Model.Precio * 2))</h6>
+
+                    <input type="hidden" name="RomperContratoId" id="RomperContratoId" value="@Model.Id" />
+                    <hr />
+                    <div class="col-12 text-right p-0">
+                        <a href="#" data-dismiss="modal">Cancelar</a> |
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check-circle"></i> Confirmar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL TERMINAR/CERRAR CONTRATO -->
+<div class="modal fade" id="modal-terminar" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="w-100 text-center">Terminar contrato</h5>
+            </div>
+            <form asp-action="Terminar">
+                <div class="modal-body">
+                    <p class="text-center">¿Desea marcar este contrato como terminado y cerrarlo?</p>
+                    <p>Solo realize esta accion si:</p>
+                    <ul>
+                        <li>Todos los pagos fueron realizados.</li>
+                        <li>Ambos participantes estan de acuerdo con terminar el contrato y no renovarlo.</li>
+                        <li>El inquilino ya abandonó el inmueble.</li>
+                    </ul>
+                    <h6>Estado del contrato actual: @Model.ResumenPagos</h6>
+                    <input type="hidden" name="TerminarContratoId" id="TerminarContratoId" value="@Model.Id" />
+                    <hr />
+                    <div class="col-12 text-right p-0">
+                        <a href="#" data-dismiss="modal">Cancelar</a> |
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check-circle"></i> Confirmar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
