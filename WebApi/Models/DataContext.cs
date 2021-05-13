@@ -11,5 +11,7 @@ namespace InmobiliariaSpartano.Models
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         //public DbSet<Clase> Tabla { get; set; }
+        public DbSet<Inmueble> Inmuebles { get; set; }
+        public DbSet<Contrato> Contratos { get; set; }
     }
 }

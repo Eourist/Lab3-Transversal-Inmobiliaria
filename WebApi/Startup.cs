@@ -42,7 +42,7 @@ namespace InmobiliariaSpartano
             });
             services.AddDbContext<DataContext>(
                 optionsAction => optionsAction.UseSqlServer(
-                    this.Configuration["ConnectionStrings:DefaultConnection"]));
+                    Configuration["ConnectionStrings:DefaultConnection"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

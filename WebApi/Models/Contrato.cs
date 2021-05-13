@@ -42,16 +42,23 @@ namespace InmobiliariaSpartano.Models
         public Inmueble Inmueble { get; set; }
 
         public int Estado { get; set; }
-        public string NombreEstado => ((Estados)Estado).ToString();
-        public int CantidadPagos { get; set; }
 
+        [NotMapped]
+        public string NombreEstado => ((Estados)Estado).ToString();
+        [NotMapped]
+        public int CantidadPagos { get; set; }
+        [NotMapped]
         public int TotalMeses => Math.Max((FechaHasta.Year - FechaDesde.Year) * 12 + FechaHasta.Month - FechaDesde.Month, 1);
+        [NotMapped]
         public DateTime ProximoPago => new DateTime(Math.Min(FechaDesde.AddMonths(CantidadPagos).Ticks, FechaHasta.Ticks));
+        [NotMapped]
         public string ProximoPagoTexto => ProximoPago == FechaHasta ? "N/A" : ProximoPago.ToShortDateString();
         //public string EstadoPagos1 => Estado == 1 && ProximoPago < FechaHasta ? (ProximoPago > DateTime.Now ? "Al día" : (ProximoPago.Month == DateTime.Now.Month ? "Pendiente" : "Atrasado")) : "Finalizados";
+        [NotMapped]
         public string ResumenPagos => $"{CantidadPagos}/{TotalMeses} mes{(TotalMeses > 1 ? "es" : "")} pagado{(TotalMeses > 1 ? "s" : "")}";
+        [NotMapped]
         public bool MitadContratoCumplida => CantidadPagos >= (TotalMeses / 2);
-
+        [NotMapped]
         public string EstadoPagos
         { get 
             {
