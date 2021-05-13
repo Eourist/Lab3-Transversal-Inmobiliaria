@@ -40,7 +40,6 @@ namespace InmobiliariaSpartano.Models
 
         [Display(Name = "Propietario")]
         public Propietario Dueño { get; set; }
-        public ICollection<Contrato> Contratos { get; set; }
 
         public override string ToString()
         {
