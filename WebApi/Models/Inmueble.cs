@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace InmobiliariaSpartano.Models
@@ -38,7 +39,7 @@ namespace InmobiliariaSpartano.Models
 
         public int Visible { get; set; }
 
-        [Display(Name = "Propietario")]
+        [Display(Name = "Propietario"), JsonIgnore]
         public Propietario Dueño { get; set; }
 
         public override string ToString()

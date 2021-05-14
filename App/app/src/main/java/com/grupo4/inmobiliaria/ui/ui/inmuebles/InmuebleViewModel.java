@@ -1,8 +1,12 @@
 package com.grupo4.inmobiliaria.ui.ui.inmuebles;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -15,8 +19,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InmuebleViewModel extends ViewModel {
-
+public class InmuebleViewModel extends AndroidViewModel {
+    private Context context;
     public MutableLiveData<Inmueble> inmuebleMutable;
     public MutableLiveData<Boolean> contratoVigenteMutable;
 
@@ -34,6 +38,11 @@ public class InmuebleViewModel extends ViewModel {
         return contratoVigenteMutable;
     }
 
+    public InmuebleViewModel(@NonNull Application app){
+        super(app);
+        this.context = app.getApplicationContext();
+    }
+
     public void LeerInmueble(Bundle bundle){
         Inmueble inmueble = (Inmueble)bundle.getSerializable("inmueble");
         inmuebleMutable.setValue(inmueble);
@@ -46,7 +55,7 @@ public class InmuebleViewModel extends ViewModel {
     }
 
     public void ConsultarContratoVigente(Inmueble inmueble){
-        Call<Contrato> resAsync = ApiClient.getMyApiClient().contratoVigente();
+        Call<Contrato> resAsync = ApiClient.getMyApiClient(context).contratoVigente();
         resAsync.enqueue(new Callback<Contrato>() {
             @Override
             public void onResponse(Call<Contrato> call, Response<Contrato> response) {

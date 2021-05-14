@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace InmobiliariaSpartano.Models
@@ -45,20 +46,20 @@ namespace InmobiliariaSpartano.Models
 
         [NotMapped]
         public string NombreEstado => ((Estados)Estado).ToString();
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public int CantidadPagos { get; set; }
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public int TotalMeses => Math.Max((FechaHasta.Year - FechaDesde.Year) * 12 + FechaHasta.Month - FechaDesde.Month, 1);
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public DateTime ProximoPago => new DateTime(Math.Min(FechaDesde.AddMonths(CantidadPagos).Ticks, FechaHasta.Ticks));
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public string ProximoPagoTexto => ProximoPago == FechaHasta ? "N/A" : ProximoPago.ToShortDateString();
         //public string EstadoPagos1 => Estado == 1 && ProximoPago < FechaHasta ? (ProximoPago > DateTime.Now ? "Al día" : (ProximoPago.Month == DateTime.Now.Month ? "Pendiente" : "Atrasado")) : "Finalizados";
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public string ResumenPagos => $"{CantidadPagos}/{TotalMeses} mes{(TotalMeses > 1 ? "es" : "")} pagado{(TotalMeses > 1 ? "s" : "")}";
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public bool MitadContratoCumplida => CantidadPagos >= (TotalMeses / 2);
-        [NotMapped]
+        [NotMapped, JsonIgnore]
         public string EstadoPagos
         { get 
             {

@@ -1,14 +1,39 @@
 package com.grupo4.inmobiliaria.request;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.bumptech.glide.load.engine.Resource;
+import com.google.android.gms.ads.internal.gmsg.HttpClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.grupo4.inmobiliaria.BuildConfig;
+import com.grupo4.inmobiliaria.R;
 import com.grupo4.inmobiliaria.modelo.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.GeneralSecurityException;
+import java.security.Key;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.CertificateFactory;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -25,19 +50,41 @@ public class ApiClient {
     private static Propietario usuarioActual=null;
     private static ApiClient api=null;
 
-    private static final String PATH="https://192.168.0.107:45455/api/";
+    private static final String PATH="http://192.168.0.107:45456/api/";
     private static  MyApiInterface myApiInteface;
 
-    public static MyApiInterface getMyApiClient(){
+    public static MyApiInterface getMyApiClient(Context context){
         Gson gson = new GsonBuilder().setLenient().create();
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(PATH)
+                //.client(generarHttpClient(context))
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         myApiInteface=retrofit.create(MyApiInterface.class);
         Log.d("salida",retrofit.baseUrl().toString());
         return myApiInteface;
     }
+
+    /*private static OkHttpClient generarHttpClient(Context context){
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS);
+        InputStream res = context.getResources().openRawResource(R.raw.conveyor_root);
+
+        try {
+            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            keyStore.load(res, "".toCharArray());
+
+            KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance("sha256RSA");
+            keyManagerFactory.init(keyStore, "".toCharArray());
+
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(keyManagerFactory.getKeyManagers(), null, new SecureRandom());
+
+            return httpClient.socketFactory(sslContext.getSocketFactory()).build();
+        } catch (Exception e) {
+            Log.d("salida", e.getMessage());
+        }
+        return null;
+    }*/
 
     public interface MyApiInterface {
         @GET("apitest/contrato_vigente/13016")
