@@ -38,9 +38,9 @@ public class ListaPagosAdapter extends ArrayAdapter<Pago> {
         TextView tvPagoNumero = convertView.findViewById(R.id.tvPagoNumero);
         TextView tvPagoImporte = convertView.findViewById(R.id.tvPagoImporte);
 
-        tvPagoId.setText("#" + String.valueOf(pago.getIdPago()));
-        tvPagoFecha.setText(pago.getFechaDePago());
-        tvPagoNumero.setText("Nro de pago: " + String.valueOf(pago.getNumero()));
+        tvPagoId.setText("#" + String.valueOf(pago.getId()));
+        tvPagoFecha.setText(pago.getFecha());
+        tvPagoNumero.setText("Nro de pago: " + position);
         tvPagoImporte.setText("$" + String.valueOf(pago.getImporte()));
 
         return convertView;

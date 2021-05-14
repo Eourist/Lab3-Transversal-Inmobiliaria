@@ -42,12 +42,12 @@ public class TabContratoFragment extends Fragment {
         tvContratoId = root.findViewById(R.id.tvContratoId);
         btInmuebleContrato = root.findViewById(R.id.btInmuebleContrato);
 
-        tvFechaInicio.setText("Fecha de inicio: "+contrato.getFechaInicio());
-        tvFechaFin.setText("Fecha de fin: "+contrato.getFechaFin());
-        tvMonto.setText("Precio por mes: $"+contrato.getMontoAlquiler());
+        tvFechaInicio.setText("Fecha de inicio: "+contrato.getFechaDesde());
+        tvFechaFin.setText("Fecha de fin: "+contrato.getFechaHasta());
+        tvMonto.setText("Precio por mes: $"+contrato.getPrecio());
         tvInquilino.setText("Inquilino: "+contrato.getInquilino().getNombre() + " "+ contrato.getInquilino().getApellido());
         tvInmueble.setText("Inmueble: "+contrato.getInmueble().getDireccion());
-        tvContratoId.setText("Detalles del contrato #"+contrato.getIdContrato());
+        tvContratoId.setText("Detalles del contrato #"+contrato.getId());
         btInmuebleContrato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

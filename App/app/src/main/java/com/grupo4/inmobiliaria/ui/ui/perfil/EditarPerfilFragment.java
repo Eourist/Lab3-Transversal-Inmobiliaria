@@ -101,7 +101,7 @@ public class EditarPerfilFragment extends Fragment {
 
                 p.setNombre(etEditarNombreUsuario.getText().toString());
                 p.setApellido(etEditarApellidoUsuario.getText().toString());
-                p.setDni(TextUtils.isEmpty(etEditarDniUsuario.getText())? -1 : Long.parseLong(etEditarDniUsuario.getText().toString()));
+                p.setDni(etEditarDniUsuario.getText().toString());
                 p.setEmail(etEditarEmailUsuario.getText().toString());
                 p.setTelefono(etEditarTelefonoUsuario.getText().toString());
 

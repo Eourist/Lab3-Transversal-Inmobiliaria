@@ -4,44 +4,50 @@ import java.io.Serializable;
 
 public class Inquilino implements Serializable {
 
-    private int idInquilino;
-    private Long DNI;
+    private int id;
+    private String dni;
     private String nombre;
     private String apellido;
-    private String lugarDeTrabajo;
+    private String lugarTrabajo;
     private String email;
     private String telefono;
     private String nombreGarante;
+    private String apellidoGarante;
+    private String dniGarante;
+    private String emailGarante;
     private String telefonoGarante;
 
     public Inquilino() {}
 
-    public Inquilino(int idInquilino, Long DNI, String nombre, String apellido, String lugarDeTrabajo, String email, String telefono, String nombreGarante, String telefonoGarante) {
-        this.idInquilino = idInquilino;
-        this.DNI = DNI;
+    public Inquilino(int Id, String dni, String nombre, String apellido, String lugarTrabajo, String email, String telefono, String nombreGarante, String apellidoGarante, String dniGarante, String emailGarante, String telefonoGarante) {
+        this.id = Id;
+        this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
-        this.lugarDeTrabajo = lugarDeTrabajo;
+        this.lugarTrabajo = lugarTrabajo;
         this.email = email;
         this.telefono = telefono;
         this.nombreGarante = nombreGarante;
+        this.apellidoGarante = apellidoGarante;
+        this.dniGarante = dniGarante;
+        this.emailGarante = emailGarante;
         this.telefonoGarante = telefonoGarante;
     }
 
-    public int getIdInquilino() {
-        return idInquilino;
+    public int getId() {
+        return id;
     }
 
-    public void setIdInquilino(int idInquilino) {
-        this.idInquilino = idInquilino;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Long getDNI() {
-        return DNI;
+    public String getDni() {
+        return dni;
     }
 
-    public void setDNI(Long DNI) {
-        this.DNI = DNI;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getNombre() {
@@ -60,12 +66,12 @@ public class Inquilino implements Serializable {
         this.apellido = apellido;
     }
 
-    public String getLugarDeTrabajo() {
-        return lugarDeTrabajo;
+    public String getLugarTrabajo() {
+        return lugarTrabajo;
     }
 
-    public void setLugarDeTrabajo(String lugarDeTrabajo) {
-        this.lugarDeTrabajo = lugarDeTrabajo;
+    public void setLugarTrabajo(String lugarTrabajo) {
+        this.lugarTrabajo = lugarTrabajo;
     }
 
     public String getEmail() {
@@ -98,5 +104,29 @@ public class Inquilino implements Serializable {
 
     public void setTelefonoGarante(String telefonoGarante) {
         this.telefonoGarante = telefonoGarante;
+    }
+
+    public String getApellidoGarante() {
+        return apellidoGarante;
+    }
+
+    public void setApellidoGarante(String apellidoGarante) {
+        this.apellidoGarante = apellidoGarante;
+    }
+
+    public String getDniGarante() {
+        return dniGarante;
+    }
+
+    public void setDniGarante(String dniGarante) {
+        this.dniGarante = dniGarante;
+    }
+
+    public String getEmailGarante() {
+        return emailGarante;
+    }
+
+    public void setEmailGarante(String emailGarante) {
+        this.emailGarante = emailGarante;
     }
 }

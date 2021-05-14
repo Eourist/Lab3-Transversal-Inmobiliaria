@@ -23,7 +23,6 @@ public class InmueblesViewModel extends ViewModel {
     public void LeerInmuebles(){
         ApiClient api = ApiClient.getApi();
         ArrayList<Inmueble> inmuebles = api.obtnerPropiedades();
-
         inmueblesMutable.setValue(inmuebles);
     }
 }

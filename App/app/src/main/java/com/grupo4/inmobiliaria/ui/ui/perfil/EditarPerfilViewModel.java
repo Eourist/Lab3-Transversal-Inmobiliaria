@@ -35,9 +35,9 @@ public class EditarPerfilViewModel extends ViewModel {
     }
 
     public void ModificarPropietario(Propietario p){
-        if(p.getNombre().isEmpty() || p.getApellido().isEmpty() || p.getDni() == -1 || p.getEmail().isEmpty() || p.getTelefono().isEmpty()){
+        if(p.getNombre().isEmpty() || p.getApellido().isEmpty() || p.getDni().isEmpty() || p.getEmail().isEmpty() || p.getTelefono().isEmpty()){
             errorMutable.setValue("Los campos no pueden estar vacios.");
-        }else if(p.getDni().toString().length() != 8){
+        }else if(p.getDni().length() != 8){
             errorMutable.setValue("El DNI ingresado no es válido (8 dígitos necesarios)");
         }else if(p.getNombre().length() > 16 || p.getNombre().length() < 3 || p.getApellido().length() > 16 || p.getApellido().length() < 3){
             errorMutable.setValue("El nombre/apellido ingresado no es válido (3 caracteres mínimo, 16 máximo)");

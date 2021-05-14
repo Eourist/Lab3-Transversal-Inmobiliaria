@@ -5,21 +5,21 @@ import java.util.Objects;
 public class Propietario {
 
     private int id;
-    private Long dni;
+    private String dni;
     private String nombre;
     private String apellido;
     private String email;
-    private String contraseña;
+    private String clave;
     private String telefono;
 
     public Propietario(){}
-    public Propietario(int id, Long dni, String nombre, String apellido, String email, String contraseña, String telefono) {
+    public Propietario(int id, String dni, String nombre, String apellido, String email, String Clave, String telefono) {
         this.id = id;
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.contraseña = contraseña;
+        this.clave = Clave;
         this.telefono = telefono;
     }
 
@@ -31,11 +31,11 @@ public class Propietario {
         this.id = id;
     }
 
-    public Long getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(Long dni) {
+    public void setDni(String dni) {
         this.dni = dni;
     }
 
@@ -63,12 +63,12 @@ public class Propietario {
         this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getClave() {
+        return clave;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setClave(String clave) {
+        this.clave = clave;
     }
 
     public String getTelefono() {

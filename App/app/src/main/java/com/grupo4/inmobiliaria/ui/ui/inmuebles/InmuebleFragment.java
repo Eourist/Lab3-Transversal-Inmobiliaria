@@ -1,7 +1,5 @@
 package com.grupo4.inmobiliaria.ui.ui.inmuebles;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +20,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.grupo4.inmobiliaria.R;
 import com.grupo4.inmobiliaria.modelo.Inmueble;
-import com.grupo4.inmobiliaria.request.ApiClient;
 
 public class InmuebleFragment extends Fragment {
 
@@ -52,10 +49,10 @@ public class InmuebleFragment extends Fragment {
                 tvTipo.setText("Tipo: "+inmueble.getTipo());
                 tvUso.setText("Uso: "+inmueble.getUso());
                 tvAmbientes.setText("Ambientes: "+inmueble.getAmbientes());
-                tvInmuebleId.setText("Detalles del inmueble #"+inmueble.getIdInmueble());
+                tvInmuebleId.setText("Detalles del inmueble #"+inmueble.getId());
                 Glide.with(getContext()).load(inmueble.getImagen()).diskCacheStrategy(DiskCacheStrategy.ALL).into(ivFoto2);
 
-                swEstado.setChecked(inmueble.isEstado());
+                swEstado.setChecked(inmueble.getVisible());
                 swEstado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

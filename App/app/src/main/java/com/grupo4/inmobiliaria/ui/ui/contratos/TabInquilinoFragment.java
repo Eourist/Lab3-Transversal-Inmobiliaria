@@ -31,13 +31,13 @@ public class TabInquilinoFragment extends Fragment {
 
     private void inicializarVista(View root){
         tvIdInquilino = root.findViewById(R.id.tvIdInquilino);
-        tvIdInquilino.setText("Detalles del inquilino #" + inquilino.getIdInquilino());
+        tvIdInquilino.setText("Detalles del inquilino #" + inquilino.getId());
         tvNombreCompletoInquilino = root.findViewById(R.id.tvNombreCompletoInquilino);
         tvNombreCompletoInquilino.setText("Nombre: " + inquilino.getNombre() + " " + inquilino.getApellido());
         tvDniInquilino = root.findViewById(R.id.tvDniInquilino);
-        tvDniInquilino.setText("DNI: " + inquilino.getDNI());
+        tvDniInquilino.setText("DNI: " + inquilino.getDni());
         tvTrabajoInquilino = root.findViewById(R.id.tvTrabajoInquilino);
-        tvTrabajoInquilino.setText("Lugar de trabajo: " + inquilino.getLugarDeTrabajo());
+        tvTrabajoInquilino.setText("Lugar de trabajo: " + inquilino.getLugarTrabajo());
         tvEmailInquilino = root.findViewById(R.id.tvEmailInquilino);
         tvEmailInquilino.setText("E-Mail: " + inquilino.getEmail());
         tvTelefonoInquilino = root.findViewById(R.id.tvTelefonoInquilino);
