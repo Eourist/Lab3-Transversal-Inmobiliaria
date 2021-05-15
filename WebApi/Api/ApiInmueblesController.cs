@@ -74,10 +74,7 @@ namespace InmobiliariaSpartano.Api
                 var entidad = contexto.Inmuebles.FirstOrDefault(i => i.Id == InmuebleId);
                 if (entidad != null)
                 {
-                    if (entidad.Visible == 1)
-                        entidad.Visible = 0;
-                    else
-                        entidad.Visible = 1;
+                    entidad.Visible = entidad.Visible == 1 ? 0 : 1;
                     contexto.Inmuebles.Update(entidad);
                     contexto.SaveChanges();
                     return Ok();
