@@ -49,9 +49,21 @@ public class InmuebleViewModel extends AndroidViewModel {
     }
 
     public void CambioEstado(Inmueble inmueble){
-        inmueble.setVisible(!inmueble.getVisible());
-        ApiClient.getApi().actualizarInmueble(inmueble);
-        inmuebleMutable.setValue(inmueble);
+        Call<Integer> resAsync = ApiClient.getMyApiClient().visibilidad(inmueble.getId());
+        resAsync.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()){
+                    Integer r = response.body();
+                    inmuebleMutable.setValue(inmueble);
+                }
+                Log.d("salida", response.message());
+            }
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.d("salida", t.getMessage());
+            }
+        });
     }
 
     public void ConsultarContratoVigente(Inmueble inmueble){

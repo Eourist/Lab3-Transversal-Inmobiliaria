@@ -94,6 +94,15 @@ public class ApiClient {
 
         @GET("apiinmuebles/inmuebles/{PropietarioId}") // OK
         public Call<ArrayList<Inmueble>> inmuebles(@Path("PropietarioId") int PropietarioId);
+
+        @GET("apiinmuebles/inmuebles_alquilados/{PropietarioId}")
+        public Call<ArrayList<Inmueble>> inmueblesAlquilados(@Path("PropietarioId") int PropietarioId);
+
+        @GET ("apipagos/pagos_contrato/{ContratoId}")
+        public Call<ArrayList<Pago>> pagos(@Path("ContratoId") int ContratoId);
+
+        @PATCH("apiinmuebles/cambiar_visibilidad/{InmuebleId}")
+        public Call<Integer> visibilidad(@Path("InmuebleId") int InmuebleId);
     }
 
     private ApiClient(){
