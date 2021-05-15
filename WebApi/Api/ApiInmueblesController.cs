@@ -64,6 +64,30 @@ namespace InmobiliariaSpartano.Api
             }
         }
 
-        //Actualizar el estado (visibilidad) de un inmueble
+        //Actualizar la visibilidad de un inmueble
+        [HttpPatch("cambiar_visibilidad/{InmuebleId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CambiarVisibilidad(int InmuebleId)
+        {
+            try
+            {
+                var entidad = contexto.Inmuebles.FirstOrDefault(i => i.Id == InmuebleId);
+                if (entidad != null)
+                {
+                    if (entidad.Visible == 1)
+                        entidad.Visible = 0;
+                    else
+                        entidad.Visible = 1;
+                    contexto.Inmuebles.Update(entidad);
+                    contexto.SaveChanges();
+                    return Ok();
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }
