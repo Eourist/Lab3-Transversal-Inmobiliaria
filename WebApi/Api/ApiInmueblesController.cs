@@ -24,13 +24,13 @@ namespace InmobiliariaSpartano.Api
         }
 
         //Obtener todos los inmuebles del propietario logueado
-        [HttpGet("inmuebles/{id}")]
+        [HttpGet("inmuebles/{PropietarioId}")]
         [AllowAnonymous]
-        public IActionResult ObtenerInmuebles(int id)
+        public IActionResult ObtenerInmuebles(int PropietarioId)
         {
             try
             {
-                List<Inmueble> inmuebles = contexto.Inmuebles.Where(i => i.PropietarioId == id).ToList();
+                List<Inmueble> inmuebles = contexto.Inmuebles.Where(i => i.PropietarioId == PropietarioId).ToList();
                 return Ok(inmuebles);
             }
             catch (Exception ex)
@@ -40,9 +40,9 @@ namespace InmobiliariaSpartano.Api
         }
 
         //Obtener todos los inmuebles con contratos vigentes del propietario logueado
-        [HttpGet("inmuebles_alquilados/{id}")]
+        [HttpGet("inmuebles_alquilados/{PropietarioId}")]
         [AllowAnonymous]
-        public IActionResult ObtenerInmueblesAlquilados(int id)
+        public IActionResult ObtenerInmueblesAlquilados(int PropietarioId)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace InmobiliariaSpartano.Api
                         c.FechaDesde <= DateTime.Today &&
                         c.FechaHasta >= DateTime.Today &&
                         c.Estado == 1 &&
-                        c.Inmueble.PropietarioId == id)
+                        c.Inmueble.PropietarioId == PropietarioId)
                     .Select(c => c.Inmueble)
                     .Distinct()
                     .ToList();

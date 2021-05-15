@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace InmobiliariaSpartano.Models
@@ -22,6 +23,7 @@ namespace InmobiliariaSpartano.Models
         public int Importe { get; set; }
 
         [Display(Name = "Contrato")]
+        [JsonIgnore]
         public Contrato Contrato { get; set; }
 
         public override string ToString()

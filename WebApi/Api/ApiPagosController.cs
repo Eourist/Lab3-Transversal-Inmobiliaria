@@ -1,4 +1,5 @@
 ﻿using InmobiliariaSpartano.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -23,11 +24,13 @@ namespace InmobiliariaSpartano.Api
         }
 
         //Listar todos los pagos de un contrato
-        public IActionResult ObtenerPagos(int id)
+        [HttpGet("pagos_contrato/{ContratoId}")]
+        [AllowAnonymous]
+        public IActionResult ObtenerPagos(int ContratoId)
         {
             try
             {
-                List<Pago> pagos = contexto.Pagos.Where(i => i.ContratoId == id).ToList();
+                List<Pago> pagos = contexto.Pagos.Where(i => i.ContratoId == ContratoId).ToList();
                 return Ok(pagos);
             }
             catch (Exception ex)

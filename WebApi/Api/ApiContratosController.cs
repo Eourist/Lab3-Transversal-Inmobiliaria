@@ -1,6 +1,8 @@
 ﻿using InmobiliariaSpartano.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -22,10 +24,29 @@ namespace InmobiliariaSpartano.Api
             this.config = config;
         }
 
-        /*
-        Dado un inmueble, retornar el contrato activo de dicho inmueble (si existe uno)
-        Dado un inmueble, retornar el inquilino del ultimo contrato activo de ese inmueble (?)
-         */
+        
+        //Dado un inmueble, retornar el contrato activo de dicho inmueble (si existe uno)
+        [HttpGet("contrato_vigente/{InmuebleId}")]
+        [AllowAnonymous]
+        public IActionResult ObtenerContratoVigente(int InmuebleId)
+        {
+            try
+            {
+                Contrato contrato = contexto.Contratos
+                    .Where(c => c.Estado == 1 && c.InmuebleId == InmuebleId)
+                    .Include(c => c.Inmueble)
+                    .Include(c => c.Inquilino)
+                    .Single();
+
+                return Ok(contrato);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("ERROR: " + ex);
+            }
+        }
+        //Dado un inmueble, retornar el inquilino del ultimo contrato activo de ese inmueble (?)
+
     }
 
 }
