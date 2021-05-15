@@ -55,14 +55,15 @@ public class InmuebleViewModel extends AndroidViewModel {
     }
 
     public void ConsultarContratoVigente(Inmueble inmueble){
-        Call<Contrato> resAsync = ApiClient.getMyApiClient(context).contratoVigente();
+        Call<Contrato> resAsync = ApiClient.getMyApiClient().contratoVigente(inmueble.getId());
         resAsync.enqueue(new Callback<Contrato>() {
             @Override
             public void onResponse(Call<Contrato> call, Response<Contrato> response) {
                 if(response.isSuccessful()){
                     Contrato c = response.body();
-                    contratoVigenteMutable.setValue(true);
+                    contratoVigenteMutable.setValue(c != null);
                 }
+                Log.d("salida", response.message());
             }
             @Override
             public void onFailure(Call<Contrato> call, Throwable t) {

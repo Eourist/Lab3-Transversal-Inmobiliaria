@@ -38,6 +38,8 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 
@@ -50,14 +52,14 @@ public class ApiClient {
     private static Propietario usuarioActual=null;
     private static ApiClient api=null;
 
-    private static final String PATH="http://192.168.0.107:45456/api/";
+    private static final String PATH="http://192.168.0.107:45455/api/";
     private static  MyApiInterface myApiInteface;
 
-    public static MyApiInterface getMyApiClient(Context context){
+    public static MyApiInterface getMyApiClient(){
         Gson gson = new GsonBuilder().setLenient().create();
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl(PATH)
-                //.client(generarHttpClient(context))
+                //.client(generarHttpClient(context)) si quiero hacer resto pedir contexto por parametro (y obtener contexto en todos los ViewModel -> AndroidViewModel)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         myApiInteface=retrofit.create(MyApiInterface.class);
@@ -87,10 +89,11 @@ public class ApiClient {
     }*/
 
     public interface MyApiInterface {
-        @GET("apitest/contrato_vigente/13016")
-        public Call<Contrato> contratoVigente();
-        /*@GET("apitest/inmuebles")
-        public Call<List<Inmueble>> inmuebles(@Query())*/
+        @GET("apicontratos/contrato_vigente/{InmuebleId}")
+        public Call<Contrato> contratoVigente(@Path("InmuebleId") int InmuebleId);
+
+        @GET("apiinmuebles/inmuebles/{PropietarioId}") // OK
+        public Call<ArrayList<Inmueble>> inmuebles(@Path("PropietarioId") int PropietarioId);
     }
 
     private ApiClient(){

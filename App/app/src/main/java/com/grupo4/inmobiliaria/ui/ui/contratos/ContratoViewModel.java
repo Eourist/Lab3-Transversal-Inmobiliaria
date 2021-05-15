@@ -35,6 +35,8 @@ public class ContratoViewModel extends ViewModel {
     public void LeerContrato(Bundle bundle){
         Contrato contrato = ApiClient.getApi().obtenerContratoVigente((Inmueble) bundle.getSerializable("inmueble"));
         contratoMutable.setValue(contrato);
+
+        // llamar a leer contrato vigente del inmueble nuevo api
     }
 
     public void LeerPagosContrato(Contrato contrato){

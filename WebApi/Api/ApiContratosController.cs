@@ -33,10 +33,10 @@ namespace InmobiliariaSpartano.Api
             try
             {
                 Contrato contrato = contexto.Contratos
-                    .Where(c => c.Estado == 1 && c.InmuebleId == InmuebleId)
+                    .Where(c => c.Estado == 1 && c.FechaDesde <= DateTime.Today && c.FechaHasta >= DateTime.Today && c.InmuebleId == InmuebleId)
                     .Include(c => c.Inmueble)
                     .Include(c => c.Inquilino)
-                    .Single();
+                    .SingleOrDefault();
 
                 return Ok(contrato);
             }
