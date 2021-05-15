@@ -1,6 +1,7 @@
 package com.grupo4.inmobiliaria.ui.ui.contratos;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,7 +12,12 @@ import com.grupo4.inmobiliaria.modelo.Inmueble;
 import com.grupo4.inmobiliaria.modelo.Pago;
 import com.grupo4.inmobiliaria.request.ApiClient;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ContratoViewModel extends ViewModel {
 
@@ -33,10 +39,24 @@ public class ContratoViewModel extends ViewModel {
     }
 
     public void LeerContrato(Bundle bundle){
-        Contrato contrato = ApiClient.getApi().obtenerContratoVigente((Inmueble) bundle.getSerializable("inmueble"));
-        contratoMutable.setValue(contrato);
+        Call<Contrato> resAsync = ApiClient.getMyApiClient().contratoVigente(((Inmueble)bundle.getSerializable("inmueble")).getId());
+        resAsync.enqueue(new Callback<Contrato>() {
+            @Override
+            public void onResponse(Call<Contrato> call, Response<Contrato> response) {
+                if (response.isSuccessful()){
+                    Contrato c = response.body();
+                    c.setFechaDesde(c.getFechaDesde().substring(0, 10));
+                    c.setFechaHasta(c.getFechaHasta().substring(0, 10));
+                    contratoMutable.setValue(response.body());
+                }
+                Log.d("salida", response.message());
+            }
 
-        // llamar a leer contrato vigente del inmueble nuevo api
+            @Override
+            public void onFailure(Call<Contrato> call, Throwable t) {
+                Log.d("salida", t.getMessage());
+            }
+        });
     }
 
     public void LeerPagosContrato(Contrato contrato){
