@@ -37,19 +37,22 @@ public class ContratosFragment extends Fragment {
         contratosViewModel.getInmueblesMutable().observe(getViewLifecycleOwner(), new Observer<ArrayList<Inmueble>>() {
             @Override
             public void onChanged(ArrayList<Inmueble> inmuebles) {
-                if(inmuebles.isEmpty()){
-                    tvNoContratos.setVisibility(View.VISIBLE);
-                    tvNoContratos.setText("No existen contratos vigentes con sus inmuebles.");
-                } else {
-                    tvNoContratos.setVisibility(View.INVISIBLE);
-                    ArrayAdapter<Inmueble> adapter = new ListaInmueblesAdapter(getContext(),
-                            R.layout.list_item_inmueble, inmuebles,
-                            getLayoutInflater(), R.id.nav_contrato);
+                tvNoContratos.setVisibility(View.INVISIBLE);
+                ArrayAdapter<Inmueble> adapter = new ListaInmueblesAdapter(getContext(),
+                        R.layout.list_item_inmueble, inmuebles,
+                        getLayoutInflater(), R.id.nav_contrato);
 
-                    lvContratos.setAdapter(adapter);
-                }
+                lvContratos.setAdapter(adapter);
             }
         });
+        contratosViewModel.getMensajeMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                tvNoContratos.setVisibility(View.VISIBLE);
+                tvNoContratos.setText(s);
+            }
+        });
+
         contratosViewModel.LeerInmueblesAlquilados();
 
         return root;
