@@ -42,6 +42,8 @@ namespace InmobiliariaSpartano.Models
         [Display(Name = "Propietario"), JsonIgnore]
         public Propietario Dueño { get; set; }
 
+        public string Imagen { get; set; }
+
         public override string ToString()
         {
             return $"#{Id} {Direccion} | {Dueño.Nombre[0].ToString().ToUpper()}. {Dueño.Apellido}";
