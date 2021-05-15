@@ -236,12 +236,8 @@ public class ApiClient {
         Contrato uno = new Contrato(701, "05/01/2020","05/01/2021",17000,prueba,casa);
         contratos.add(uno);
         //Pagos
-        pagos.add(new Pago(900,1,uno,17000,"10/02/2020"));
-        pagos.add(new Pago(901,2,uno,17000,"10/03/2020"));
-        pagos.add(new Pago(902,3,uno,17000,"10/04/2020"));
-
-
-
-
+        pagos.add(new Pago(900,uno,17000,"10/02/2020"));
+        pagos.add(new Pago(901,uno,17000,"10/03/2020"));
+        pagos.add(new Pago(902,uno,17000,"10/04/2020"));
     }
 }

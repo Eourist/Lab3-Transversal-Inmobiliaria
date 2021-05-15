@@ -11,8 +11,7 @@ import com.grupo4.inmobiliaria.modelo.Contrato;
 import com.grupo4.inmobiliaria.modelo.Inmueble;
 import com.grupo4.inmobiliaria.modelo.Pago;
 import com.grupo4.inmobiliaria.request.ApiClient;
-
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,7 +59,20 @@ public class ContratoViewModel extends ViewModel {
     }
 
     public void LeerPagosContrato(Contrato contrato){
-        List<Pago> pagos = ApiClient.getApi().obtenerPagos(contrato);
-        pagosMutable.setValue(pagos);
+        Call<ArrayList<Pago>> resAsync = ApiClient.getMyApiClient().pagos(contrato.getId());
+        resAsync.enqueue(new Callback<ArrayList<Pago>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Pago>> call, Response<ArrayList<Pago>> response) {
+                if(response.isSuccessful()){
+                    ArrayList<Pago> listaPagos = response.body();
+                    pagosMutable.setValue(listaPagos);
+                }
+                Log.d("salida", response.message());
+            }
+            @Override
+            public void onFailure(Call<ArrayList<Pago>> call, Throwable t) {
+                Log.d("salida", t.getMessage());
+            }
+        });
     }
 }
