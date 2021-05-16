@@ -1,5 +1,6 @@
 ﻿using InmobiliariaSpartano.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -48,6 +49,12 @@ namespace InmobiliariaSpartano.Controllers
         {
             try
             {
+                e.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: e.Clave,
+                        salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 400,
+                        numBytesRequested: 256 / 8));
                 repositorioPropietario.Alta(e);
                 return RedirectToAction(nameof(Index));
             }
@@ -75,7 +82,12 @@ namespace InmobiliariaSpartano.Controllers
             try
             {
                 Propietario p = repositorioPropietario.ObtenerPorId<Propietario>(id);
-                e.Clave = p.Clave;
+                e.Clave = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                        password: p.Clave,
+                        salt: System.Text.Encoding.ASCII.GetBytes(configuration["Salt"]),
+                        prf: KeyDerivationPrf.HMACSHA1,
+                        iterationCount: 400,
+                        numBytesRequested: 256 / 8));
                 repositorioPropietario.Editar(e);
                 return RedirectToAction(nameof(Index));
             }

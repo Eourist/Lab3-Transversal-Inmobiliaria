@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace InmobiliariaSpartano
 {
@@ -33,9 +34,23 @@ namespace InmobiliariaSpartano
                     options.LoginPath = "/Usuario/Login";
                     options.LogoutPath = "/Usuario/Logout";
                     options.AccessDeniedPath = "/Home/Index";
+                }).AddJwtBearer(options => 
+                { 
+                    options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["TokenAuthentication:Issuer"],
+                        ValidAudience = Configuration["TokenAuthentication:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
+                            Configuration["TokenAuthentication:SecretKey"])),
+                    };
                 });
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("Propietario", policy => policy.RequireRole("Propietario"));
                 options.AddPolicy("Empleado", policy => policy.RequireRole("Empleado", "Administrador", "SuperAdministrador"));
                 options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador", "SuperAdministrador"));
                 options.AddPolicy("SuperAdministrador", policy => policy.RequireRole("SuperAdministrador"));
