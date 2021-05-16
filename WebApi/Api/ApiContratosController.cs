@@ -45,7 +45,6 @@ namespace InmobiliariaSpartano.Api
                 return BadRequest("ERROR: " + ex);
             }
         }
-        //Dado un inmueble, retornar el inquilino del ultimo contrato activo de ese inmueble (?)
 
     }
 

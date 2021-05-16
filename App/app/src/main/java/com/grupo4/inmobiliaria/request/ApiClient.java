@@ -52,7 +52,8 @@ public class ApiClient {
     private static Propietario usuarioActual=null;
     private static ApiClient api=null;
 
-    private static final String PATH="http://192.168.0.107:45455/api/";
+    //private static final String PATH="http://192.168.0.107:45455/api/";
+    //private static final String PATH="http://192.168.0.108:45455/api/";
     private static  MyApiInterface myApiInteface;
 
     public static MyApiInterface getMyApiClient(){

@@ -1,4 +1,5 @@
 ﻿using InmobiliariaSpartano.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,8 +22,31 @@ namespace InmobiliariaSpartano.Api
             this.contexto = contexto;
             this.config = config;
         }
-        /*1- Login(String mail, String password)
-        2- obtenerUsuarioActual() > Propietario
-        3- Actualizar Perfil*/
+        //1- Login(String mail, String password)
+        //2- obtenerUsuarioActual() > Propietario
+        
+        
+        //3- Actualizar Perfil
+
+        [HttpPut("editar_propietario/{PropietarioId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> EditarPropietario(int PropietarioId, [FromForm] Propietario entidad) //
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    entidad.Id = PropietarioId;
+                    contexto.Propietarios.Update(entidad);
+                    await contexto.SaveChangesAsync();
+                    return Ok(entidad);
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }
