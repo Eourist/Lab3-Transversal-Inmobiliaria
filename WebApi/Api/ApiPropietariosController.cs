@@ -56,17 +56,17 @@ namespace InmobiliariaSpartano.Api
         //1- Login(String mail, String password)
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string email, string clave)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
             try
             {
                 string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                        password: clave,
+                        password: loginRequest.clave,
                         salt: System.Text.Encoding.ASCII.GetBytes(config["Salt"]),
                         prf: KeyDerivationPrf.HMACSHA1,
                         iterationCount: 400,
                         numBytesRequested: 256 / 8));
-                var p = await contexto.Propietarios.FirstOrDefaultAsync(x => x.Email == email);
+                var p = await contexto.Propietarios.FirstOrDefaultAsync(x => x.Email == loginRequest.email);
                 if (p == null || p.Clave != hashed)
                 {
                     return BadRequest("Nombre de usuario o clave incorrecta");
@@ -90,7 +90,9 @@ namespace InmobiliariaSpartano.Api
                         expires: DateTime.Now.AddMinutes(60),
                         signingCredentials: credenciales
                     );
-                    return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+
+                    LoginResponse r = new LoginResponse { statusCode = 10, token = new JwtSecurityTokenHandler().WriteToken(token), propietario = p };
+                    return Ok(r);
                 }
             }
             catch (Exception ex)

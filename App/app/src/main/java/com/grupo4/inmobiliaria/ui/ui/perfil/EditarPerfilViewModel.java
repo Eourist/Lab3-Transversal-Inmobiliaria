@@ -34,7 +34,7 @@ public class EditarPerfilViewModel extends ViewModel {
 
     public void ObtenerPropietario(){
         ApiClient api = ApiClient.getApi();
-        Propietario p = api.obtenerUsuarioActual();
+        Propietario p = api.getUsuarioActual();
 
         propietarioMutable.setValue(p);
     }

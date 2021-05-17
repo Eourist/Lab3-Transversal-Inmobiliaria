@@ -39,7 +39,7 @@ public class ContratosViewModel extends ViewModel {
 
         inmueblesMutable.setValue(inmuebles);*/
 
-        Call<ArrayList<Inmueble>> resAsync = ApiClient.getMyApiClient().inmueblesAlquilados(15006);
+        Call<ArrayList<Inmueble>> resAsync = ApiClient.getMyApiClient().inmueblesAlquilados(ApiClient.getApi().getUsuarioActual().getId());
         resAsync.enqueue(new Callback<ArrayList<Inmueble>>() {
             @Override
             public void onResponse(Call<ArrayList<Inmueble>> call, Response<ArrayList<Inmueble>> response) {

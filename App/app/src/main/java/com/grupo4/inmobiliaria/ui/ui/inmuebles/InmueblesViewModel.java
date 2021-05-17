@@ -29,7 +29,7 @@ public class InmueblesViewModel extends ViewModel {
     }
 
     public void LeerInmuebles(){
-        Call<ArrayList<Inmueble>> resAsync = ApiClient.getMyApiClient().inmuebles(15006);
+        Call<ArrayList<Inmueble>> resAsync = ApiClient.getMyApiClient().inmuebles(ApiClient.getApi().getUsuarioActual().getId());
         resAsync.enqueue(new Callback<ArrayList<Inmueble>>() {
             @Override
             public void onResponse(Call<ArrayList<Inmueble>> call, Response<ArrayList<Inmueble>> response) {

@@ -4,11 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.grupo4.inmobiliaria.modelo.Inmueble;
 import com.grupo4.inmobiliaria.modelo.Propietario;
 import com.grupo4.inmobiliaria.request.ApiClient;
-
-import java.util.ArrayList;
 
 public class PerfilViewModel extends ViewModel {
     public MutableLiveData<Propietario> propietarioMutable;
@@ -22,7 +19,7 @@ public class PerfilViewModel extends ViewModel {
 
     public void LeerPropietario(){
         ApiClient api = ApiClient.getApi();
-        Propietario p = api.obtenerUsuarioActual();
+        Propietario p = api.getUsuarioActual();
 
         propietarioMutable.setValue(p);
     }

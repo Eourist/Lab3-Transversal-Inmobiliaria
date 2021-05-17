@@ -41,6 +41,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.PUT;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -109,6 +110,9 @@ public class ApiClient {
 
         @PUT("apipropietarios/editar_propietario")
         public Call<Propietario> modificarPropietario(@Body Propietario Propietario);
+
+        @POST("apipropietarios/login")
+        public Call<LoginResponse> login(@Body LoginRequest loginRequest);
     }
 
     private ApiClient(){
@@ -137,9 +141,10 @@ public class ApiClient {
     }
 
     //Retorna el usuario que inició Sesión
-    public Propietario obtenerUsuarioActual(){
+    public Propietario getUsuarioActual(){
         return usuarioActual;
     }
+    public void setUsuarioActual(Propietario propietario) { usuarioActual = propietario; }
 
     //Retorna las propiedades del usuario propietario logueado
     public ArrayList<Inmueble> obtnerPropiedades(){
