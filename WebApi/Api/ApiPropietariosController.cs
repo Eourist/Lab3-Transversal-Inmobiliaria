@@ -32,20 +32,18 @@ namespace InmobiliariaSpartano.Api
         }
 
         //2- obtenerUsuarioActual() > Propietario
-
         //3- Actualizar Perfil
-        [HttpPut("editar_propietario/{PropietarioId}")]
+        [HttpPut("editar_propietario")]
         [AllowAnonymous]
-        public async Task<IActionResult> EditarPropietario(int PropietarioId, [FromForm] Propietario entidad) //
+        public async Task<IActionResult> EditarPropietario([FromBody] Propietario Propietario)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    entidad.Id = PropietarioId;
-                    contexto.Propietarios.Update(entidad);
+                    contexto.Propietarios.Update(Propietario);
                     await contexto.SaveChangesAsync();
-                    return Ok(entidad);
+                    return Ok(Propietario);
                 }
                 return BadRequest();
             }

@@ -1,5 +1,6 @@
 package com.grupo4.inmobiliaria.ui.ui.perfil;
 
+import android.util.Log;
 import android.util.Patterns;
 
 import androidx.lifecycle.LiveData;
@@ -8,6 +9,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.grupo4.inmobiliaria.modelo.Propietario;
 import com.grupo4.inmobiliaria.request.ApiClient;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditarPerfilViewModel extends ViewModel {
     public MutableLiveData<Propietario> propietarioMutable;
@@ -46,9 +51,24 @@ public class EditarPerfilViewModel extends ViewModel {
         }else if(p.getTelefono().length() > 15 || p.getTelefono().length() < 9){
             errorMutable.setValue("El número de teléfono ingresado no es válido (9-15 dígitos)");
         }else{
-            ApiClient api = ApiClient.getApi();
-            api.actualizarPerfil(p);
-            errorMutable.setValue("EXITO");
+            //ApiClient api = ApiClient.getApi();
+            //api.actualizarPerfil(p);
+            Call<Propietario> resAsync = ApiClient.getMyApiClient().modificarPropietario(p);
+            resAsync.enqueue(new Callback<Propietario>() {
+                @Override
+                public void onResponse(Call<Propietario> call, Response<Propietario> response) {
+                    if(response.isSuccessful()){
+                        Propietario r = response.body();
+                        errorMutable.setValue("EXITO");
+                    }
+                    Log.d("salida", response.message()+"onresponse");
+                }
+                @Override
+                public void onFailure(Call<Propietario> call, Throwable t) {
+                    Log.d("salida", t.getMessage()+"onfailure");
+                }
+            });
         }
+
     }
 }

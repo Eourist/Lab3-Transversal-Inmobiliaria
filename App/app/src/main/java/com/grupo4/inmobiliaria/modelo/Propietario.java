@@ -5,21 +5,21 @@ import java.util.Objects;
 public class Propietario {
 
     private int id;
-    private String dni;
     private String nombre;
     private String apellido;
+    private String dni;
+    private String telefono;
     private String email;
     private String clave;
-    private String telefono;
 
     public Propietario(){}
-    public Propietario(int id, String dni, String nombre, String apellido, String email, String Clave, String telefono) {
+    public Propietario(int id, String dni, String nombre, String apellido, String email, String clave, String telefono) {
         this.id = id;
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
-        this.clave = Clave;
+        this.clave = clave;
         this.telefono = telefono;
     }
 

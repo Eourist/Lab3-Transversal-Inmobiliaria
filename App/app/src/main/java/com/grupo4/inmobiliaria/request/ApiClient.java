@@ -37,8 +37,10 @@ import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -104,6 +106,9 @@ public class ApiClient {
 
         @PATCH("apiinmuebles/cambiar_visibilidad/{InmuebleId}")
         public Call<Integer> visibilidad(@Path("InmuebleId") int InmuebleId);
+
+        @PUT("apipropietarios/editar_propietario")
+        public Call<Propietario> modificarPropietario(@Body Propietario Propietario);
     }
 
     private ApiClient(){
@@ -195,7 +200,7 @@ public class ApiClient {
         return temp;
     }
     //Actualizar Perfil
-    public void actualizarPerfil(Propietario propietario){
+    /*public void actualizarPerfil(Propietario propietario){
         int posición=propietarios.indexOf(propietario);
         if(posición!=-1){
             propietarios.set(posición,propietario);
@@ -208,12 +213,12 @@ public class ApiClient {
         if(posicion!=-1){
             inmuebles.set(posicion,inmueble);
         }
-    }
+    }*/
 
     private void cargaDatos(){
 
         //Propietarios
-        Propietario juan=new Propietario(19006,"23492012L","Juan","Perez","juan@mail.com","123","2664553447");
+        Propietario juan=new Propietario(15006,"23492012L","Juan","Perez","juan@mail.com","123","2664553447");
         Propietario sonia=new Propietario(2,"17495869L","Sonia","Lucero","sonia@mail.com","123","266485417");
         propietarios.add(juan);
         propietarios.add(sonia);
