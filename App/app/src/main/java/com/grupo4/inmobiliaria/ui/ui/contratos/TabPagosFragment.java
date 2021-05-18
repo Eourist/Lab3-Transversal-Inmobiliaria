@@ -3,8 +3,10 @@ package com.grupo4.inmobiliaria.ui.ui.contratos;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.service.autofill.TextValueSanitizer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,15 @@ public class TabPagosFragment extends Fragment {
             ArrayAdapter<Pago> adapter = new ListaPagosAdapter(getContext(), R.layout.list_item_pago, pagos, getLayoutInflater());
             lvPagos.setAdapter(adapter);
         }
+
+        final SwipeRefreshLayout recarga = root.findViewById(R.id.recarga);
+        recarga.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.d("salida","Recargar lista de pagos");
+                recarga.setRefreshing(false);
+            }
+        });
 
         return root;
     }
