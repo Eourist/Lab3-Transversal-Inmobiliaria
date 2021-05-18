@@ -1,6 +1,7 @@
 package com.grupo4.inmobiliaria.ui.ui.contratos;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import com.grupo4.inmobiliaria.modelo.Pago;
 import com.grupo4.inmobiliaria.ui.ui.inmuebles.InmuebleViewModel;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ContratoFragment extends Fragment {
 
@@ -32,12 +34,9 @@ public class ContratoFragment extends Fragment {
     private Contrato contrato;
     private List<Pago> pagos;
 
-    private AppBarLayout appBar;
-    private ViewPager viewPage;
-    private TabLayout tabLayout;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        Log.d("test_contrato", "onCreateView");
         contratoViewModel =
                 new ViewModelProvider(this).get(ContratoViewModel.class);
         View root = inflater.inflate(R.layout.fragment_contrato, container, false);
@@ -45,41 +44,46 @@ public class ContratoFragment extends Fragment {
         contratoViewModel.getContratoMutable().observe(getViewLifecycleOwner(), new Observer<Contrato>() {
             @Override
             public void onChanged(Contrato c) {
-                contrato = c;
-                contratoViewModel.LeerPagosContrato(c);
+                Log.d("test_contrato", "contratoMutable onChanged");
+                if (c != contrato){
+                    contrato = c;
+                    contratoViewModel.LeerPagosContrato(c);
+                }
             }
         });
+
         contratoViewModel.getPagosMutable().observe(getViewLifecycleOwner(), new Observer<List<Pago>>() {
             @Override
             public void onChanged(List<Pago> p) {
-                pagos = p;
-                inicializarVista(root);
+                Log.d("test_contrato", "pagosMutable onChanged");
+                if (p != pagos){
+                    pagos = p;
+
+                    if (contrato != null && pagos != null)
+                        inicializarVista(root);
+                }
             }
         });
+
         contratoViewModel.LeerContrato(getArguments());
         return root;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     private void inicializarVista(View root){
-        viewPage = root.findViewById(R.id.viewPage);
-        appBar = root.findViewById(R.id.appBar);
-        tabLayout = new TabLayout(getContext());
+        Log.d("test_contrato", "inicializarVista");
+        ViewPager viewPage = root.findViewById(R.id.viewPage);
+        AppBarLayout appBar = root.findViewById(R.id.appBar);
+        TabLayout tabLayout = new TabLayout(requireContext());
         appBar.addView(tabLayout);
 
-        if (contrato != null){
-            ViewPageAdapter vpa = new ViewPageAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-            vpa.addFragment(new TabContratoFragment(contrato), "Contrato");
-            vpa.addFragment(new TabInquilinoFragment(contrato.getInquilino()), "Inquilino");
-            vpa.addFragment(new TabPagosFragment(pagos), "Pagos");
 
-            viewPage.setAdapter(vpa);
-            tabLayout.setupWithViewPager(viewPage);
-        }
+        ViewPageAdapter vpa = new ViewPageAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        vpa.addFragment(new TabContratoFragment(contrato), "Contrato");
+        vpa.addFragment(new TabInquilinoFragment(contrato.getInquilino()), "Inquilino");
+        vpa.addFragment(new TabPagosFragment(pagos), "Pagos");
+
+        viewPage.setAdapter(vpa);
+        tabLayout.setupWithViewPager(viewPage);
     }
 }
 

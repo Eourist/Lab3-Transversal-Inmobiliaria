@@ -1,7 +1,6 @@
 ﻿using InmobiliariaSpartano.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -87,7 +86,7 @@ namespace InmobiliariaSpartano.Api
                         issuer: config["TokenAuthentication:Issuer"],
                         audience: config["TokenAuthentication:Audience"],
                         claims: claims,
-                        expires: DateTime.Now.AddMinutes(60),
+                        expires: DateTime.Now.AddDays(1),
                         signingCredentials: credenciales
                     );
 
