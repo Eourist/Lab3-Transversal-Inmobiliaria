@@ -65,34 +65,31 @@ namespace InmobiliariaSpartano.Api
                         prf: KeyDerivationPrf.HMACSHA1,
                         iterationCount: 400,
                         numBytesRequested: 256 / 8));
+
                 var p = await contexto.Propietarios.FirstOrDefaultAsync(x => x.Email == loginRequest.email);
                 if (p == null || p.Clave != hashed)
-                {
                     return BadRequest("Nombre de usuario o clave incorrecta");
-                }
-                else
+
+                var key = new SymmetricSecurityKey(
+                    System.Text.Encoding.ASCII.GetBytes(config["TokenAuthentication:SecretKey"]));
+                var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                var claims = new List<Claim>
                 {
-                    var key = new SymmetricSecurityKey(
-                        System.Text.Encoding.ASCII.GetBytes(config["TokenAuthentication:SecretKey"]));
-                    var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, p.Email),
-                        new Claim("FullName", p.Nombre + " " + p.Apellido),
-                        new Claim(ClaimTypes.Role, "Propietario"),
-                    };
+                    new Claim(ClaimTypes.Name, p.Email),
+                    new Claim("FullName", p.Nombre + " " + p.Apellido),
+                    new Claim(ClaimTypes.Role, "Propietario"),
+                };
 
-                    var token = new JwtSecurityToken(
-                        issuer: config["TokenAuthentication:Issuer"],
-                        audience: config["TokenAuthentication:Audience"],
-                        claims: claims,
-                        expires: DateTime.Now.AddDays(1),
-                        signingCredentials: credenciales
-                    );
+                var token = new JwtSecurityToken(
+                    issuer: config["TokenAuthentication:Issuer"],
+                    audience: config["TokenAuthentication:Audience"],
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(1),
+                    signingCredentials: credenciales
+                );
 
-                    LoginResponse r = new LoginResponse { statusCode = 10, token = new JwtSecurityTokenHandler().WriteToken(token), propietario = p };
-                    return Ok(r);
-                }
+
+                return Ok(new { statusCode = 10, token = new JwtSecurityTokenHandler().WriteToken(token), propietario = p });
             }
             catch (Exception ex)
             {

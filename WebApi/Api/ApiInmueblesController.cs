@@ -1,4 +1,5 @@
 ﻿using InmobiliariaSpartano.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace InmobiliariaSpartano.Api
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class ApiInmueblesController : ControllerBase
     {
@@ -25,7 +27,6 @@ namespace InmobiliariaSpartano.Api
 
         //Obtener todos los inmuebles del propietario logueado
         [HttpGet("inmuebles/{PropietarioId}")]
-        [AllowAnonymous]
         public IActionResult ObtenerInmuebles(int PropietarioId)
         {
             try

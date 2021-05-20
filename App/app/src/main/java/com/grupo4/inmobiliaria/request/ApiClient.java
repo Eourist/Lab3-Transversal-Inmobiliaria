@@ -40,6 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.PUT;
 import retrofit2.http.POST;
@@ -51,7 +52,7 @@ public class ApiClient {
     private static Propietario usuarioActual=null;
     private static ApiClient api=null;
 
-    private static final String PATH="http://192.168.0.107:45455/api/"; //Diego
+    //private static final String PATH="http://192.168.0.107:45455/api/"; //Diego
     //private static final String PATH="http://192.168.0.108:45455/api/"; //Sebastian
     private static  MyApiInterface myApiInteface;
 
@@ -93,7 +94,7 @@ public class ApiClient {
         public Call<Contrato> contratoVigente(@Path("InmuebleId") int InmuebleId);
 
         @GET("apiinmuebles/inmuebles/{PropietarioId}") // OK
-        public Call<ArrayList<Inmueble>> inmuebles(@Path("PropietarioId") int PropietarioId);
+        public Call<ArrayList<Inmueble>> inmuebles(@Path("PropietarioId") int PropietarioId, @Header("Authorization") String token);
 
         @GET("apiinmuebles/inmuebles_alquilados/{PropietarioId}")
         public Call<ArrayList<Inmueble>> inmueblesAlquilados(@Path("PropietarioId") int PropietarioId);
@@ -116,6 +117,10 @@ public class ApiClient {
             api=new ApiClient();
         }
         return api;
+    }
+
+    public String getToken(Context context) {
+        return context.getSharedPreferences("data.dat", 0).getString("token", "Error al recuperar el token");
     }
 
     public Propietario getUsuarioActual(){
