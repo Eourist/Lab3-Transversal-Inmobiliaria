@@ -50,21 +50,18 @@ public class MainActivityViewModel extends AndroidViewModel {
                             resultadoMutable.setValue(true);
                             String token = response.body().getToken();
                             preferences.edit().putString("token", "Bearer " + token).apply();
-                            ApiClient.getApi().setUsuarioActual(p);
                         } else {
-                            mensajeMutable.setValue("Error desconocido");
+                            mensajeMutable.setValue("Ocurrió un error inesperado.");
                         }
 
                     }else {
-                        mensajeMutable.setValue("Error de validación");
+                        mensajeMutable.setValue("Credenciales incorrectas.");
                     }
-                    Log.d("salida", response.message());
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    Log.d("salida", t.getMessage());
-                    mensajeMutable.setValue("Error de conexión");
+                    mensajeMutable.setValue("No se pudo conectar con el servidor.");
                 }
             });
         } else {

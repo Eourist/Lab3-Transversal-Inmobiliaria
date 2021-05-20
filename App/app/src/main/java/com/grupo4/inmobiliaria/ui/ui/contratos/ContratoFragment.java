@@ -44,11 +44,11 @@ public class ContratoFragment extends Fragment {
         contratoViewModel.getContratoMutable().observe(getViewLifecycleOwner(), new Observer<Contrato>() {
             @Override
             public void onChanged(Contrato c) {
-                Log.d("test_contrato", "contratoMutable onChanged");
-                if (c != contrato){
+                Log.d("test_contrato", "contratoMutable onChanged " + c.getId());
+                //if (c != contrato){
                     contrato = c;
                     contratoViewModel.LeerPagosContrato(c);
-                }
+                //}
             }
         });
 
@@ -56,12 +56,10 @@ public class ContratoFragment extends Fragment {
             @Override
             public void onChanged(List<Pago> p) {
                 Log.d("test_contrato", "pagosMutable onChanged");
-                if (p != pagos){
+                //if (p != pagos){
                     pagos = p;
-
-                    if (contrato != null && pagos != null)
-                        inicializarVista(root);
-                }
+                    inicializarVista(root);
+                //}
             }
         });
 
@@ -75,7 +73,6 @@ public class ContratoFragment extends Fragment {
         AppBarLayout appBar = root.findViewById(R.id.appBar);
         TabLayout tabLayout = new TabLayout(requireContext());
         appBar.addView(tabLayout);
-
 
         ViewPageAdapter vpa = new ViewPageAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         vpa.addFragment(new TabContratoFragment(contrato), "Contrato");

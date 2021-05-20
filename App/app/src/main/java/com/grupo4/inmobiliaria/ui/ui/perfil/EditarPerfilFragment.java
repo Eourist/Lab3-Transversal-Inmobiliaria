@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.grupo4.inmobiliaria.MainActivity;
 import com.grupo4.inmobiliaria.R;
@@ -53,34 +54,24 @@ public class EditarPerfilFragment extends Fragment {
         editarPerfilViewModel.getErrorMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                if(s == "EXITO")
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                else{
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("Error")
-                            .setMessage(s)
-                            .setPositiveButton("Salir", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            }).show();
-                }
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Error")
+                        .setMessage(s)
+                        .setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
             }
         });
-        editarPerfilViewModel.getPropietarioMutable().observe(getViewLifecycleOwner(), new Observer<Propietario>() {
+
+        editarPerfilViewModel.getExitoMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onChanged(Propietario propietario) {
-                propietarioActual = propietario;
-                tvUsuarioId.setText("Editando el usuario #"+propietario.getId());
-                etEditarNombreUsuario.setText(propietario.getNombre());
-                etEditarApellidoUsuario.setText(propietario.getApellido());
-                etEditarDniUsuario.setText(String.valueOf(propietario.getDni()));
-                etEditarEmailUsuario.setText((propietario.getEmail()));
-                etEditarTelefonoUsuario.setText(propietario.getTelefono());
+            public void onChanged(String mensaje) {
+                Toast.makeText(getContext(), mensaje, Toast.LENGTH_SHORT).show();
             }
         });
-        editarPerfilViewModel.ObtenerPropietario();
 
         return root;
     }
@@ -93,6 +84,15 @@ public class EditarPerfilFragment extends Fragment {
         etEditarEmailUsuario = v.findViewById(R.id.etEditarEmailUsuario);
         etEditarTelefonoUsuario = v.findViewById(R.id.etEditarTelefonoUsuario);
         btGuardar = v.findViewById(R.id.btGuardar);
+
+        Propietario propietario = (Propietario)getArguments().getSerializable("propietario");
+        propietarioActual = propietario;
+        tvUsuarioId.setText("Editando el usuario #"+propietario.getId());
+        etEditarNombreUsuario.setText(propietario.getNombre());
+        etEditarApellidoUsuario.setText(propietario.getApellido());
+        etEditarDniUsuario.setText(String.valueOf(propietario.getDni()));
+        etEditarEmailUsuario.setText((propietario.getEmail()));
+        etEditarTelefonoUsuario.setText(propietario.getTelefono());
 
         btGuardar.setOnClickListener(new View.OnClickListener() {
             @Override

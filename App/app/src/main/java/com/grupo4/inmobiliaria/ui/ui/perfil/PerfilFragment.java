@@ -42,6 +42,15 @@ public class PerfilFragment extends Fragment {
                 tvUserDni.setText("DNI: "+propietario.getDni());
                 tvUserEmail.setText("E-Mail: "+propietario.getEmail());
                 tvUserPhone.setText("Teléfono: "+propietario.getTelefono());
+
+                btEditar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle b = new Bundle();
+                        b.putSerializable("propietario", propietario);
+                        Navigation.findNavController((Activity)getContext(), R.id.nav_host_fragment).navigate(R.id.nav_perfil_editar, b);
+                    }
+                });
             }
         });
         perfilViewModel.LeerPropietario();
@@ -56,11 +65,5 @@ public class PerfilFragment extends Fragment {
         tvUserEmail = v.findViewById(R.id.tvUserEmail);
         tvUserPhone = v.findViewById(R.id.tvUserPhone);
         btEditar = v.findViewById(R.id.btEditar);
-        btEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController((Activity)getContext(), R.id.nav_host_fragment).navigate(R.id.nav_perfil_editar);
-            }
-        });
     }
 }

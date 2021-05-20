@@ -19,7 +19,6 @@ import retrofit2.http.Path;
 
 
 public class ApiClient {
-    private static Propietario usuarioActual = null;
     private static ApiClient api = null;
 
     //private static final String PATH="http://192.168.0.107:45455/api/"; //Diego
@@ -79,6 +78,9 @@ public class ApiClient {
         @PUT("propietarios/editar_propietario")
         public Call<Propietario> modificarPropietario(@Body Propietario Propietario, @Header("Authorization") String token);
 
+        @GET("propietarios/propietarioLogueado")
+        public Call<Propietario> propietarioLogueado(@Header("Authorization") String token);
+
         @POST("propietarios/login")
         public Call<LoginResponse> login(@Body LoginRequest loginRequest);
     }
@@ -93,10 +95,4 @@ public class ApiClient {
     public String getToken(Context context) {
         return context.getSharedPreferences("data.dat", 0).getString("token", "Error al recuperar el token");
     }
-
-    public Propietario getUsuarioActual(){
-        return usuarioActual;
-    }
-
-    public void setUsuarioActual(Propietario propietario) { usuarioActual = propietario; }
 }

@@ -18,12 +18,20 @@ import retrofit2.Response;
 public class InmueblesViewModel extends AndroidViewModel {
     private Context context;
     public MutableLiveData<ArrayList<Inmueble>> inmueblesMutable;
+    public MutableLiveData<String> errorMutable;
 
     public LiveData<ArrayList<Inmueble>> getInmueblesMutable(){
         if (inmueblesMutable == null){
             inmueblesMutable = new MutableLiveData<>();
         }
         return inmueblesMutable;
+    }
+
+    public LiveData<String> getErrorMutable(){
+        if (errorMutable == null){
+            errorMutable = new MutableLiveData<>();
+        }
+        return errorMutable;
     }
 
     public InmueblesViewModel(@NonNull Application app){
@@ -37,20 +45,18 @@ public class InmueblesViewModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<ArrayList<Inmueble>> call, Response<ArrayList<Inmueble>> response) {
                 if (response.isSuccessful()){
-                    inmueblesMutable.setValue(response.body());
-
+                    if (response.body().isEmpty())
+                        errorMutable.setValue("No se encontraron inmuebles.");
+                    else
+                        inmueblesMutable.setValue(response.body());
                 }
-                if (response.code() == 401){
-                    Log.d("salida", "Error de autorización"); // si el token esta vencido debería entrar aca
-                    inmueblesMutable.setValue(new ArrayList<Inmueble>());
-                }
-                Log.d("salida", response.message());
+                if (response.code() == 401)
+                    errorMutable.setValue("Sesión cerrada por inactividad"); // si el token esta vencido debería entrar aca
             }
 
             @Override
             public void onFailure(Call<ArrayList<Inmueble>> call, Throwable t) {
-                Log.d("salida", t.getMessage());
-                inmueblesMutable.setValue(new ArrayList<Inmueble>());
+                errorMutable.setValue("No se pudo conectar con el servidor.");
             }
         });
     }

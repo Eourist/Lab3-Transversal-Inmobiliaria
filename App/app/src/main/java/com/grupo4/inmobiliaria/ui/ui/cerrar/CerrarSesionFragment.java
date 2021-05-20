@@ -44,7 +44,7 @@ public class CerrarSesionFragment extends Fragment {
                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        if(!cerrar)
+                        if(!cerrar) // Prof. Mercado: Acá hay un IF porque el onDismiss tambien se llama cuando hacemos click en el boton "Salir", aunque son acciones distintas. Hace falta una comprobación para decidir si cerrar sesion o no.
                             startActivity(new Intent(getActivity(), MenuNavegacion.class));
                     }
                 })

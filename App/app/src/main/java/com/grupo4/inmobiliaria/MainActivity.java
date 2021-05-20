@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                btIngresar.setEnabled(true);
                             }
                         }).show();
             }
@@ -66,9 +66,7 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getResultadoMutable().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean ok) {
-                if (ok){
-                    startActivity(new Intent(getApplicationContext(), MenuNavegacion.class));
-                }
+                startActivity(new Intent(getApplicationContext(), MenuNavegacion.class));
             }
         });
     }
@@ -87,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         btIngresar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                btIngresar.setEnabled(false);
                 viewModel.verificarDatos(
                         etMail.getText().toString(),
                         etClave.getText().toString()

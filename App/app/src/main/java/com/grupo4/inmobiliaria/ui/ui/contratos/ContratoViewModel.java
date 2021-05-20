@@ -51,14 +51,14 @@ public class ContratoViewModel extends AndroidViewModel {
                     Contrato c = response.body();
                     c.setFechaDesde(c.getFechaDesde().substring(0, 10));
                     c.setFechaHasta(c.getFechaHasta().substring(0, 10));
-                    Log.d("salida", "Mutable contrato: " + response.message());
+                    Log.d("test_contrato", "Consulta contrato: " + response.message());
                     contratoMutable.setValue(response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<Contrato> call, Throwable t) {
-                Log.d("salida", "Error en contrato: " + t.getMessage());
+                Log.d("test_contrato", "Consulta contrato: " + t.getMessage());
             }
         });
     }
@@ -70,13 +70,13 @@ public class ContratoViewModel extends AndroidViewModel {
             public void onResponse(Call<ArrayList<Pago>> call, Response<ArrayList<Pago>> response) {
                 if(response.isSuccessful()){
                     ArrayList<Pago> listaPagos = response.body();
-                    Log.d("salida", "Mutable pagos: " + response.message());
+                    Log.d("test_contrato", "Consulta pagos: " + response.message());
                     pagosMutable.setValue(listaPagos);
                 }
             }
             @Override
             public void onFailure(Call<ArrayList<Pago>> call, Throwable t) {
-                Log.d("salida", "Error en pagos: " + t.getMessage());
+                Log.d("test_contrato", "Consulta pagos: " + t.getMessage());
             }
         });
     }

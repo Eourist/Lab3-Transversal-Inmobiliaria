@@ -17,15 +17,8 @@ import retrofit2.Response;
 
 public class EditarPerfilViewModel extends AndroidViewModel {
     public Context context;
-    public MutableLiveData<Propietario> propietarioMutable;
     public MutableLiveData<String> errorMutable;
-
-    public LiveData<Propietario> getPropietarioMutable(){
-        if (propietarioMutable == null){
-            propietarioMutable = new MutableLiveData<>();
-        }
-        return propietarioMutable;
-    }
+    public MutableLiveData<String> exitoMutable;
 
     public LiveData<String> getErrorMutable(){
         if (errorMutable == null){
@@ -34,16 +27,16 @@ public class EditarPerfilViewModel extends AndroidViewModel {
         return errorMutable;
     }
 
+    public LiveData<String> getExitoMutable(){
+        if (exitoMutable == null){
+            exitoMutable = new MutableLiveData<>();
+        }
+        return exitoMutable;
+    }
+
     public EditarPerfilViewModel(@NonNull Application app){
         super(app);
         context = app.getApplicationContext();
-    }
-
-    public void ObtenerPropietario(){
-        ApiClient api = ApiClient.getApi();
-        Propietario p = api.getUsuarioActual();
-
-        propietarioMutable.setValue(p);
     }
 
     public void ModificarPropietario(Propietario p){
@@ -64,13 +57,12 @@ public class EditarPerfilViewModel extends AndroidViewModel {
                 public void onResponse(Call<Propietario> call, Response<Propietario> response) {
                     if(response.isSuccessful()){
                         Propietario r = response.body();
-                        errorMutable.setValue("EXITO");
+                        exitoMutable.setValue("Datos editados correctamente.");
                     }
-                    Log.d("salida", response.message()+"onresponse");
                 }
                 @Override
                 public void onFailure(Call<Propietario> call, Throwable t) {
-                    Log.d("salida", t.getMessage()+"onfailure");
+                    errorMutable.setValue("No se pudo conectar con el servidor");
                 }
             });
         }

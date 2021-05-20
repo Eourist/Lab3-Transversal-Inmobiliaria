@@ -22,9 +22,9 @@ import com.grupo4.inmobiliaria.modelo.Inmueble;
 import java.util.List;
 
 public class ListaInmueblesAdapter extends ArrayAdapter<Inmueble> {
-    private Context context;
-    private List<Inmueble> inmuebles;
-    private LayoutInflater inflater;
+    private final Context context;
+    private final List<Inmueble> inmuebles;
+    private final LayoutInflater inflater;
 
     int vistaDetallesOnClick;
 
@@ -40,7 +40,6 @@ public class ListaInmueblesAdapter extends ArrayAdapter<Inmueble> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        //super.getView(position, convertView, parent);
         convertView = convertView != null ? convertView : inflater.inflate(R.layout.list_item_inmueble, parent, false);
         Inmueble inmueble = inmuebles.get(position);
 

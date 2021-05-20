@@ -34,11 +34,12 @@ public class TabPagosFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_tab_pagos, container, false);
         inicializarVista(root);
 
-        if (pagos.isEmpty()){
+        // Prof. Mercado: Acá hay un IF porque este Fragment NO tiene ViewModel. El listado de pagos viene por constructor, por lo que la comprobación de si está vacío tiene que estar si o si acá.
+        if (pagos.isEmpty()) {
             tvNoPagos.setVisibility(View.VISIBLE);
             tvNoPagos.setText("No se realizaron pagos en este contrato.");
         } else {
-            tvNoPagos.setVisibility(View.INVISIBLE);
+            tvNoPagos.setVisibility(pagos.isEmpty() ? View.VISIBLE : View.INVISIBLE);
             ArrayAdapter<Pago> adapter = new ListaPagosAdapter(getContext(), R.layout.list_item_pago, pagos, getLayoutInflater());
             lvPagos.setAdapter(adapter);
         }

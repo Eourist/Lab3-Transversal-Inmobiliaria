@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace InmobiliariaSpartano.Api
 {
@@ -27,6 +28,21 @@ namespace InmobiliariaSpartano.Api
         {
             this.contexto = contexto;
             this.config = config;
+        }
+
+        [HttpGet("propietarioLogueado")]
+        public IActionResult PropietarioLogueado()
+        {
+            try
+            {
+                int id = Int32.Parse(User.Claims.First(x => x.Type == "Id").Value);
+                var propietario = contexto.Propietarios.Find(id);
+                return Ok(propietario);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("ERROR: " + ex);
+            }
         }
 
         [HttpPut("editar_propietario")]

@@ -23,29 +23,28 @@ import java.util.ArrayList;
 
 public class InmueblesFragment extends Fragment {
 
-    private InmueblesViewModel inmueblesViewModel;
     private ListView lvInmuebles;
     private TextView tvNoInmuebles;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        inmueblesViewModel =
-                new ViewModelProvider(this).get(InmueblesViewModel.class);
+        InmueblesViewModel inmueblesViewModel = new ViewModelProvider(this).get(InmueblesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_inmuebles, container, false);
 
         InicializarVista(root);
         inmueblesViewModel.getInmueblesMutable().observe(getViewLifecycleOwner(), new Observer<ArrayList<Inmueble>>() {
             @Override
             public void onChanged(ArrayList<Inmueble> inmuebles) {
-                if (inmuebles.isEmpty()){
-                    tvNoInmuebles.setVisibility(View.VISIBLE);
-                    tvNoInmuebles.setText("No se encontró ningún inmueble registrado.");
-                } else {
-                    tvNoInmuebles.setVisibility(View.INVISIBLE);
-                    ArrayAdapter<Inmueble> adapter = new ListaInmueblesAdapter(getContext(), R.layout.list_item_inmueble, inmuebles, getLayoutInflater(), R.id.nav_inmueble);
-                    lvInmuebles.setAdapter(adapter);
-                }
-
+                tvNoInmuebles.setVisibility(View.INVISIBLE);
+                ArrayAdapter<Inmueble> adapter = new ListaInmueblesAdapter(getContext(), R.layout.list_item_inmueble, inmuebles, getLayoutInflater(), R.id.nav_inmueble);
+                lvInmuebles.setAdapter(adapter);
+            }
+        });
+        inmueblesViewModel.getErrorMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String mensaje) {
+                tvNoInmuebles.setVisibility(View.VISIBLE);
+                tvNoInmuebles.setText(mensaje);
             }
         });
         inmueblesViewModel.LeerInmuebles();

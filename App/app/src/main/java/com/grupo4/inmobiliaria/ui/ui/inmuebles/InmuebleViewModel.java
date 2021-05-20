@@ -69,13 +69,14 @@ public class InmuebleViewModel extends AndroidViewModel {
             public void onResponse(Call<Contrato> call, Response<Contrato> response) {
                 if(response.isSuccessful()){
                     Contrato c = response.body();
-                    contratoVigenteMutable.setValue(c != null);
+                    if (c != null)
+                        contratoVigenteMutable.setValue(true);
                 }
                 Log.d("salida", response.message());
             }
             @Override
             public void onFailure(Call<Contrato> call, Throwable t) {
-                contratoVigenteMutable.setValue(false);
+
                 Log.d("salida", t.getMessage());
             }
         });

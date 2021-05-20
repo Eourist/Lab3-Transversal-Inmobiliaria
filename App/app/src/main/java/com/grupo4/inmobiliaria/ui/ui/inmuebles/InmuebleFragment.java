@@ -56,8 +56,7 @@ public class InmuebleFragment extends Fragment {
                 swEstado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if (inmueble != null)
-                            inmuebleViewModel.CambioEstado(inmueble);
+                        inmuebleViewModel.CambioEstado(inmueble);
                     }
                 });
 
@@ -69,18 +68,16 @@ public class InmuebleFragment extends Fragment {
         inmuebleViewModel.getContratoVigenteMutable().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean contratoVigente) {
-                btContratoInmueble.setVisibility(contratoVigente ? View.VISIBLE : View.INVISIBLE);
-                if (contratoVigente){
-                    btContratoInmueble.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // Navegar a los detalles del contrato vigente de este inmueble
-                            Bundle b = new Bundle();
-                            b.putSerializable("inmueble", inmueble);
-                            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.nav_contrato, b);
-                        }
-                    });
-                }
+                btContratoInmueble.setVisibility(View.VISIBLE);
+                btContratoInmueble.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Navegar a los detalles del contrato vigente de este inmueble
+                        Bundle b = new Bundle();
+                        b.putSerializable("inmueble", inmueble);
+                        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.nav_contrato, b);
+                    }
+                });
             }
         });
 
