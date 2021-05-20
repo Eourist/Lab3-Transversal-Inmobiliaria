@@ -8,17 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.google.android.gms.common.api.Api;
-import com.grupo4.inmobiliaria.modelo.Inmueble;
 import com.grupo4.inmobiliaria.modelo.Propietario;
 import com.grupo4.inmobiliaria.request.ApiClient;
 import com.grupo4.inmobiliaria.request.LoginRequest;
 import com.grupo4.inmobiliaria.request.LoginResponse;
-
-import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -13,12 +13,12 @@ namespace InmobiliariaSpartano.Api
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ApiContratosController : ControllerBase
+    public class ContratosController : ControllerBase
     {
         private readonly DataContext contexto;
         private readonly IConfiguration config;
 
-        public ApiContratosController(DataContext contexto, IConfiguration config)
+        public ContratosController(DataContext contexto, IConfiguration config)
         {
             this.contexto = contexto;
             this.config = config;

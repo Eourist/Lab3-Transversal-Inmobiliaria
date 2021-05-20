@@ -9,11 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.grupo4.inmobiliaria.modelo.Propietario;
 import com.grupo4.inmobiliaria.request.ApiClient;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -18,12 +18,12 @@ namespace InmobiliariaSpartano.Api
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
-    public class ApiPropietariosController : ControllerBase
+    public class PropietariosController : ControllerBase
     {
         private readonly DataContext contexto;
         private readonly IConfiguration config;
 
-        public ApiPropietariosController(DataContext contexto, IConfiguration config)
+        public PropietariosController(DataContext contexto, IConfiguration config)
         {
             this.contexto = contexto;
             this.config = config;

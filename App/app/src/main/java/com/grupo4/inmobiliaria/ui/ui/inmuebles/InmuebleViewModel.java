@@ -4,17 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.grupo4.inmobiliaria.modelo.Contrato;
 import com.grupo4.inmobiliaria.modelo.Inmueble;
 import com.grupo4.inmobiliaria.request.ApiClient;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -2,50 +2,20 @@ package com.grupo4.inmobiliaria.request;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.bumptech.glide.load.engine.Resource;
-import com.google.android.gms.ads.internal.gmsg.HttpClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.grupo4.inmobiliaria.BuildConfig;
-import com.grupo4.inmobiliaria.R;
 import com.grupo4.inmobiliaria.modelo.*;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.GeneralSecurityException;
-import java.security.Key;
-import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.cert.CertificateFactory;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.PUT;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 
 public class ApiClient {
@@ -54,6 +24,7 @@ public class ApiClient {
 
     //private static final String PATH="http://192.168.0.107:45455/api/"; //Diego
     //private static final String PATH="http://192.168.0.108:45455/api/"; //Sebastian
+    
     private static  MyApiInterface myApiInteface;
 
     public static MyApiInterface getMyApiClient(){
@@ -90,25 +61,25 @@ public class ApiClient {
     }*/
 
     public interface MyApiInterface {
-        @GET("apicontratos/contrato_vigente/{InmuebleId}")
+        @GET("contratos/contrato_vigente/{InmuebleId}")
         public Call<Contrato> contratoVigente(@Path("InmuebleId") int InmuebleId, @Header("Authorization") String token);
 
-        @GET("apiinmuebles/inmuebles")
+        @GET("inmuebles/inmuebles")
         public Call<ArrayList<Inmueble>> inmuebles(@Header("Authorization") String token);
 
-        @GET("apiinmuebles/inmuebles_alquilados")
+        @GET("inmuebles/inmuebles_alquilados")
         public Call<ArrayList<Inmueble>> inmueblesAlquilados(@Header("Authorization") String token);
 
-        @GET ("apipagos/pagos_contrato/{ContratoId}")
+        @GET ("pagos/pagos_contrato/{ContratoId}")
         public Call<ArrayList<Pago>> pagos(@Path("ContratoId") int ContratoId, @Header("Authorization") String token);
 
-        @PATCH("apiinmuebles/cambiar_visibilidad/{InmuebleId}")
+        @PATCH("inmuebles/cambiar_visibilidad/{InmuebleId}")
         public Call<Integer> visibilidad(@Path("InmuebleId") int InmuebleId, @Header("Authorization") String token);
 
-        @PUT("apipropietarios/editar_propietario")
+        @PUT("propietarios/editar_propietario")
         public Call<Propietario> modificarPropietario(@Body Propietario Propietario, @Header("Authorization") String token);
 
-        @POST("apipropietarios/login")
+        @POST("propietarios/login")
         public Call<LoginResponse> login(@Body LoginRequest loginRequest);
     }
 
