@@ -1,4 +1,5 @@
 ﻿using InmobiliariaSpartano.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace InmobiliariaSpartano.Api
 {
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class ApiPagosController : ControllerBase
     {
@@ -23,9 +25,7 @@ namespace InmobiliariaSpartano.Api
             this.config = config;
         }
 
-        //Listar todos los pagos de un contrato
         [HttpGet("pagos_contrato/{ContratoId}")]
-        [AllowAnonymous]
         public IActionResult ObtenerPagos(int ContratoId)
         {
             try

@@ -49,7 +49,7 @@ public class InmuebleViewModel extends AndroidViewModel {
     }
 
     public void CambioEstado(Inmueble inmueble){
-        Call<Integer> resAsync = ApiClient.getMyApiClient().visibilidad(inmueble.getId());
+        Call<Integer> resAsync = ApiClient.getMyApiClient().visibilidad(inmueble.getId(), ApiClient.getApi().getToken(context));
         resAsync.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
@@ -67,7 +67,7 @@ public class InmuebleViewModel extends AndroidViewModel {
     }
 
     public void ConsultarContratoVigente(Inmueble inmueble){
-        Call<Contrato> resAsync = ApiClient.getMyApiClient().contratoVigente(inmueble.getId());
+        Call<Contrato> resAsync = ApiClient.getMyApiClient().contratoVigente(inmueble.getId(), ApiClient.getApi().getToken(context));
         resAsync.enqueue(new Callback<Contrato>() {
             @Override
             public void onResponse(Call<Contrato> call, Response<Contrato> response) {

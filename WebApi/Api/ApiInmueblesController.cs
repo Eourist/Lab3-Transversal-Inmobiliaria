@@ -25,13 +25,13 @@ namespace InmobiliariaSpartano.Api
             this.config = config;
         }
 
-        //Obtener todos los inmuebles del propietario logueado
-        [HttpGet("inmuebles/{PropietarioId}")]
-        public IActionResult ObtenerInmuebles(int PropietarioId)
+        [HttpGet("inmuebles")]
+        public IActionResult ObtenerInmuebles()
         {
             try
             {
-                List<Inmueble> inmuebles = contexto.Inmuebles.Where(i => i.PropietarioId == PropietarioId).ToList();
+                int id = Int32.Parse(User.Claims.First(x => x.Type == "Id").Value);
+                List<Inmueble> inmuebles = contexto.Inmuebles.Where(i => i.PropietarioId == id).ToList();
                 return Ok(inmuebles);
             }
             catch (Exception ex)
@@ -40,19 +40,18 @@ namespace InmobiliariaSpartano.Api
             }
         }
 
-        //Obtener todos los inmuebles con contratos vigentes del propietario logueado
-        [HttpGet("inmuebles_alquilados/{PropietarioId}")]
-        [AllowAnonymous]
-        public IActionResult ObtenerInmueblesAlquilados(int PropietarioId)
+        [HttpGet("inmuebles_alquilados")]
+        public IActionResult ObtenerInmueblesAlquilados()
         {
             try
             {
+                int id = Int32.Parse(User.Claims.First(x => x.Type == "Id").Value);
                 List<Inmueble> inmuebles = contexto.Contratos
                     .Where(c =>
                         c.FechaDesde <= DateTime.Today &&
                         c.FechaHasta >= DateTime.Today &&
                         c.Estado == 1 &&
-                        c.Inmueble.PropietarioId == PropietarioId)
+                        c.Inmueble.PropietarioId == id)
                     .Select(c => c.Inmueble)
                     .Distinct()
                     .ToList();
@@ -65,9 +64,7 @@ namespace InmobiliariaSpartano.Api
             }
         }
 
-        //Actualizar la visibilidad de un inmueble
         [HttpPatch("cambiar_visibilidad/{InmuebleId}")]
-        [AllowAnonymous]
         public async Task<IActionResult> CambiarVisibilidad(int InmuebleId)
         {
             try

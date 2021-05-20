@@ -1,8 +1,12 @@
 package com.grupo4.inmobiliaria.ui.ui.perfil;
 
+import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 import android.util.Patterns;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -14,7 +18,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EditarPerfilViewModel extends ViewModel {
+public class EditarPerfilViewModel extends AndroidViewModel {
+    public Context context;
     public MutableLiveData<Propietario> propietarioMutable;
     public MutableLiveData<String> errorMutable;
 
@@ -30,6 +35,11 @@ public class EditarPerfilViewModel extends ViewModel {
             errorMutable = new MutableLiveData<>();
         }
         return errorMutable;
+    }
+
+    public EditarPerfilViewModel(@NonNull Application app){
+        super(app);
+        context = app.getApplicationContext();
     }
 
     public void ObtenerPropietario(){
@@ -51,9 +61,7 @@ public class EditarPerfilViewModel extends ViewModel {
         }else if(p.getTelefono().length() > 15 || p.getTelefono().length() < 9){
             errorMutable.setValue("El número de teléfono ingresado no es válido (9-15 dígitos)");
         }else{
-            //ApiClient api = ApiClient.getApi();
-            //api.actualizarPerfil(p);
-            Call<Propietario> resAsync = ApiClient.getMyApiClient().modificarPropietario(p);
+            Call<Propietario> resAsync = ApiClient.getMyApiClient().modificarPropietario(p, ApiClient.getApi().getToken(context));
             resAsync.enqueue(new Callback<Propietario>() {
                 @Override
                 public void onResponse(Call<Propietario> call, Response<Propietario> response) {

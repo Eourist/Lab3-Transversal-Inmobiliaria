@@ -49,8 +49,8 @@ import retrofit2.http.Query;
 
 
 public class ApiClient {
-    private static Propietario usuarioActual=null;
-    private static ApiClient api=null;
+    private static Propietario usuarioActual = null;
+    private static ApiClient api = null;
 
     //private static final String PATH="http://192.168.0.107:45455/api/"; //Diego
     //private static final String PATH="http://192.168.0.108:45455/api/"; //Sebastian
@@ -91,22 +91,22 @@ public class ApiClient {
 
     public interface MyApiInterface {
         @GET("apicontratos/contrato_vigente/{InmuebleId}")
-        public Call<Contrato> contratoVigente(@Path("InmuebleId") int InmuebleId);
+        public Call<Contrato> contratoVigente(@Path("InmuebleId") int InmuebleId, @Header("Authorization") String token);
 
-        @GET("apiinmuebles/inmuebles/{PropietarioId}") // OK
-        public Call<ArrayList<Inmueble>> inmuebles(@Path("PropietarioId") int PropietarioId, @Header("Authorization") String token);
+        @GET("apiinmuebles/inmuebles")
+        public Call<ArrayList<Inmueble>> inmuebles(@Header("Authorization") String token);
 
-        @GET("apiinmuebles/inmuebles_alquilados/{PropietarioId}")
-        public Call<ArrayList<Inmueble>> inmueblesAlquilados(@Path("PropietarioId") int PropietarioId);
+        @GET("apiinmuebles/inmuebles_alquilados")
+        public Call<ArrayList<Inmueble>> inmueblesAlquilados(@Header("Authorization") String token);
 
         @GET ("apipagos/pagos_contrato/{ContratoId}")
-        public Call<ArrayList<Pago>> pagos(@Path("ContratoId") int ContratoId);
+        public Call<ArrayList<Pago>> pagos(@Path("ContratoId") int ContratoId, @Header("Authorization") String token);
 
         @PATCH("apiinmuebles/cambiar_visibilidad/{InmuebleId}")
-        public Call<Integer> visibilidad(@Path("InmuebleId") int InmuebleId);
+        public Call<Integer> visibilidad(@Path("InmuebleId") int InmuebleId, @Header("Authorization") String token);
 
         @PUT("apipropietarios/editar_propietario")
-        public Call<Propietario> modificarPropietario(@Body Propietario Propietario);
+        public Call<Propietario> modificarPropietario(@Body Propietario Propietario, @Header("Authorization") String token);
 
         @POST("apipropietarios/login")
         public Call<LoginResponse> login(@Body LoginRequest loginRequest);

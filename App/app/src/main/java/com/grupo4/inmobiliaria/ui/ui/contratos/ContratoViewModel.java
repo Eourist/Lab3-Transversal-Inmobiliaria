@@ -1,8 +1,12 @@
 package com.grupo4.inmobiliaria.ui.ui.contratos;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -18,8 +22,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ContratoViewModel extends ViewModel {
-
+public class ContratoViewModel extends AndroidViewModel {
+    private Context context;
     public MutableLiveData<Contrato> contratoMutable;
     public MutableLiveData<List<Pago>> pagosMutable;
 
@@ -37,8 +41,13 @@ public class ContratoViewModel extends ViewModel {
         return contratoMutable;
     }
 
+    public ContratoViewModel(@NonNull Application app){
+        super(app);
+        context = app.getApplicationContext();
+    }
+
     public void LeerContrato(Bundle bundle){
-        Call<Contrato> resAsync = ApiClient.getMyApiClient().contratoVigente(((Inmueble)bundle.getSerializable("inmueble")).getId());
+        Call<Contrato> resAsync = ApiClient.getMyApiClient().contratoVigente(((Inmueble)bundle.getSerializable("inmueble")).getId(), ApiClient.getApi().getToken(context));
         resAsync.enqueue(new Callback<Contrato>() {
             @Override
             public void onResponse(Call<Contrato> call, Response<Contrato> response) {
@@ -59,7 +68,7 @@ public class ContratoViewModel extends ViewModel {
     }
 
     public void LeerPagosContrato(Contrato contrato){
-        Call<ArrayList<Pago>> resAsync = ApiClient.getMyApiClient().pagos(contrato.getId());
+        Call<ArrayList<Pago>> resAsync = ApiClient.getMyApiClient().pagos(contrato.getId(), ApiClient.getApi().getToken(context));
         resAsync.enqueue(new Callback<ArrayList<Pago>>() {
             @Override
             public void onResponse(Call<ArrayList<Pago>> call, Response<ArrayList<Pago>> response) {

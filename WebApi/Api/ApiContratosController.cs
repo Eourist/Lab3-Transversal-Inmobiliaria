@@ -24,10 +24,7 @@ namespace InmobiliariaSpartano.Api
             this.config = config;
         }
 
-        
-        //Dado un inmueble, retornar el contrato activo de dicho inmueble (si existe uno)
         [HttpGet("contrato_vigente/{InmuebleId}")]
-        [AllowAnonymous]
         public IActionResult ObtenerContratoVigente(int InmuebleId)
         {
             try

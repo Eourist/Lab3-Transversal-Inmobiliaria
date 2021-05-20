@@ -1,8 +1,12 @@
 package com.grupo4.inmobiliaria.ui.ui.contratos;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,8 +20,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ContratosViewModel extends ViewModel {
+public class ContratosViewModel extends AndroidViewModel {
 
+    private Context context;
     public MutableLiveData<ArrayList<Inmueble>> inmueblesMutable;
     public MutableLiveData<String> mensajeMutable;
 
@@ -33,13 +38,18 @@ public class ContratosViewModel extends ViewModel {
         return mensajeMutable;
     }
 
+    public ContratosViewModel(@NonNull Application app){
+        super(app);
+        context = app.getApplicationContext();
+    }
+
     public void LeerInmueblesAlquilados(){
         /*ApiClient api = ApiClient.getApi();
         ArrayList<Inmueble> inmuebles = api.obtenerPropiedadesAlquiladas();
 
         inmueblesMutable.setValue(inmuebles);*/
 
-        Call<ArrayList<Inmueble>> resAsync = ApiClient.getMyApiClient().inmueblesAlquilados(ApiClient.getApi().getUsuarioActual().getId());
+        Call<ArrayList<Inmueble>> resAsync = ApiClient.getMyApiClient().inmueblesAlquilados(ApiClient.getApi().getToken(context));
         resAsync.enqueue(new Callback<ArrayList<Inmueble>>() {
             @Override
             public void onResponse(Call<ArrayList<Inmueble>> call, Response<ArrayList<Inmueble>> response) {

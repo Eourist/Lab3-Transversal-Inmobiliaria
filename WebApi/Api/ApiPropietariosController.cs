@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -30,10 +29,7 @@ namespace InmobiliariaSpartano.Api
             this.config = config;
         }
 
-        //2- obtenerUsuarioActual() > Propietario
-        //3- Actualizar Perfil
         [HttpPut("editar_propietario")]
-        [AllowAnonymous]
         public async Task<IActionResult> EditarPropietario([FromBody] Propietario Propietario)
         {
             try
@@ -52,7 +48,6 @@ namespace InmobiliariaSpartano.Api
             } 
         }
 
-        //1- Login(String mail, String password)
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
@@ -77,6 +72,7 @@ namespace InmobiliariaSpartano.Api
                 {
                     new Claim(ClaimTypes.Name, p.Email),
                     new Claim("FullName", p.Nombre + " " + p.Apellido),
+                    new Claim("Id", p.Id.ToString()),
                     new Claim(ClaimTypes.Role, "Propietario"),
                 };
 
@@ -84,7 +80,7 @@ namespace InmobiliariaSpartano.Api
                     issuer: config["TokenAuthentication:Issuer"],
                     audience: config["TokenAuthentication:Audience"],
                     claims: claims,
-                    expires: DateTime.Now.AddMinutes(1),
+                    expires: DateTime.Now.AddHours(12),
                     signingCredentials: credenciales
                 );
 
